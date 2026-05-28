@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vidrios y Aluminios Vallejo</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#fff;color:#222}
+
+/* WA top bar */
+.wa-bar{background:#222;display:flex;align-items:center;justify-content:center;gap:10px;padding:.45rem 1rem;font-size:.82rem;flex-wrap:wrap}
+.wa-bar a{color:#25d366;text-decoration:none;display:flex;align-items:center;gap:5px;font-weight:600}
+.wa-bar a:hover{text-decoration:underline}
+.wa-bar span{color:#aaa}
+.wa-svg{width:18px;height:18px;fill:#25d366;flex-shrink:0}
+
+/* Header */
+header{background:#c0392b;padding:.9rem 1.4rem;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+header img.logo{height:58px;object-fit:contain}
+header .title{flex:1}
+header .title h1{color:#fff;font-size:1.15rem;font-weight:700;line-height:1.3}
+header .title p{color:#f5c6c6;font-size:.74rem;margin-top:3px}
+.search-bar{display:flex;align-items:center;background:#fff;border-radius:4px;overflow:hidden}
+.search-bar input{border:none;outline:none;padding:.42rem .85rem;font-size:.86rem;width:220px;color:#222}
+.search-bar button{background:#c0392b;border:none;padding:.42rem .75rem;cursor:pointer;color:#fff;font-size:.95rem;border-left:1px solid #a93226}
+
+/* Nav */
+nav{background:#333;display:flex;flex-wrap:wrap;border-bottom:3px solid #c0392b;padding:3px 8px;gap:2px}
+nav a{color:#ccc;text-decoration:none;font-size:.78rem;padding:.4rem .8rem;border-radius:3px;transition:background .15s,color .15s}
+nav a:hover,nav a.active{background:#c0392b;color:#fff}
+
+/* Hero bienvenida */
+.hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;background:#fff;border-bottom:1px solid #eee}
+.hero h2{font-size:1.4rem;font-weight:700;color:#c0392b;text-transform:uppercase;letter-spacing:1px;margin-bottom:.6rem}
+.hero p{font-size:.92rem;color:#555;max-width:600px;margin:0 auto;line-height:1.7}
+
+/* Catalogo: foto grande + descripción centrada */
+.catalogo{max-width:860px;margin:0 auto;padding:2rem 1.2rem}
+.item{margin-bottom:3rem;text-align:center}
+.item a{text-decoration:none;color:inherit;display:block}
+.item img{width:100%;max-width:780px;height:auto;max-height:480px;object-fit:contain;border-radius:6px;border:1px solid #ddd;background:#f5f5f5;transition:transform .25s,box-shadow .25s;display:block;margin:0 auto}
+.item a:hover img{transform:scale(1.015);box-shadow:0 6px 22px rgba(0,0,0,.18)}
+.item-desc{margin-top:.9rem}
+.item-desc h3{font-size:1.05rem;font-weight:700;color:#c0392b;margin-bottom:.3rem}
+.item-desc p{font-size:.87rem;color:#666;line-height:1.6;max-width:600px;margin:0 auto}
+.item-desc .btn{display:inline-block;margin-top:.7rem;background:#c0392b;color:#fff;font-size:.78rem;padding:.38rem 1.1rem;border-radius:4px;text-decoration:none;font-weight:600;transition:background .15s}
+.item-desc .btn:hover{background:#a93226}
+.divider{border:none;border-top:1px solid #eee;margin:0 auto 3rem;max-width:780px}
+
+/* No results */
+.no-results{text-align:center;padding:3rem;color:#aaa;font-size:.9rem;display:none}
+
+/* Footer */
+footer{background:#333;color:#aaa;text-align:center;padding:.75rem;font-size:.78rem}
+footer strong{color:#c0392b}
+.wa-footer{background:#1a1a1a;display:flex;align-items:center;justify-content:center;gap:10px;padding:.55rem 1rem;font-size:.82rem;flex-wrap:wrap}
+.wa-footer a{color:#25d366;text-decoration:none;display:flex;align-items:center;gap:5px;font-weight:600}
+.wa-footer a:hover{text-decoration:underline}
+.wa-footer span{color:#777}
+</style>
+</head>
+<body>
+
+<!-- BARRA SUPERIOR WA -->
+<div class="wa-bar">
+  <span>¿Necesitas un presupuesto?</span>
+  <a href="https://wa.me/5213317229727" target="_blank">
+    <svg class="wa-svg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.563 4.14 1.535 5.874L.057 23.428a.75.75 0 0 0 .916.928l5.688-1.49A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.708 9.708 0 0 1-4.953-1.355l-.355-.211-3.676.963.981-3.585-.231-.369A9.718 9.718 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
+    +52 1 33 1722 9727
+  </a>
+</div>
+
+<!-- HEADER -->
+<header>
+  <img class="logo" src="logo.jpeg" alt="Vidrios y Aluminios Vallejo">
+  <div class="title">
+    <h1>Vidrios y Aluminios Vallejo</h1>
+    <p>Calidad · Diseño · Acabados profesionales</p>
+  </div>
+  <div class="search-bar">
+    <input type="text" id="buscar" placeholder="Buscar..." oninput="filtrar()">
+    <button onclick="filtrar()">&#128269;</button>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="active" onclick="filtrarCat('',this,event)">Todos</a>
+  <a href="#" onclick="filtrarCat('Estantes',this,event)">Estantes</a>
+  <a href="#" onclick="filtrarCat('Vitrinas',this,event)">Vitrinas</a>
+  <a href="#" onclick="filtrarCat('Cocina integral',this,event)">Cocina integral</a>
+  <a href="#" onclick="filtrarCat('Vitrales',this,event)">Vitrales</a>
+  <a href="#" onclick="filtrarCat('Canceles de baño',this,event)">Canceles de baño</a>
+  <a href="#" onclick="filtrarCat('Barandales',this,event)">Barandales</a>
+  <a href="#" onclick="filtrarCat('Tragaluz',this,event)">Tragaluz</a>
+  <a href="#" onclick="filtrarCat('Puertas',this,event)">Puertas</a>
+  <a href="#" onclick="filtrarCat('Ventanas',this,event)">Ventanas</a>
+  <a href="#" onclick="filtrarCat('Puertas automáticas',this,event)">Puertas automáticas</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h2>Bienvenidos a Vidrios y Aluminios Vallejo</h2>
+  <p>Nuestro compromiso es brindar excelente servicio, materiales de calidad y acabados profesionales en cada trabajo. Transforma tus espacios con diseños funcionales y duraderos.</p>
+</div>
+
+<!-- CATÁLOGO -->
+<div class="catalogo" id="catalogo"></div>
+<div class="no-results" id="noRes">No se encontraron resultados.</div>
+
+<!-- FOOTER -->
+<footer>
+  <strong>Vidrios y Aluminios Vallejo</strong> &mdash; Materiales de calidad, acabados profesionales
+</footer>
+<div class="wa-footer">
+  <span>Contáctanos por WhatsApp:</span>
+  <a href="https://wa.me/5213317229727" target="_blank">
+    <svg class="wa-svg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.563 4.14 1.535 5.874L.057 23.428a.75.75 0 0 0 .916.928l5.688-1.49A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.708 9.708 0 0 1-4.953-1.355l-.355-.211-3.676.963.981-3.585-.231-.369A9.718 9.718 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
+    +52 1 33 1722 9727
+  </a>
+</div>
+
+<script>
+const productos = [
+  { cat:'Estantes',           desc:'Fabricamos estantes a la medida de tus espacios. Funcionales, elegantes y duraderos, hechos por expertos con la mayor calidad.',           img:'estantes/1.jpg',            anchor:'estantes' },
+  { cat:'Vitrinas',           desc:'Vitrinas de vidrio que resaltan tus productos. La mejor presentación para tu negocio con elegancia y visibilidad.',                        img:'vitrinas/1.jpg',            anchor:'vitrinas' },
+  { cat:'Cocina integral',    desc:'Cocinas de aluminio modernas que transforman tu hogar. Resistencia, estilo y calidad en cada diseño.',                                     img:'cocina/1.jpg',              anchor:'cocina' },
+  { cat:'Vitrales',           desc:'Creamos vitrales únicos para tu espacio. El arte del vitral hecho a mano por expertos que iluminan y transforman tu hogar.',               img:'vitrales/1.jpg',            anchor:'vitrales' },
+  { cat:'Canceles de baño',   desc:'Canceles de baño de lujo. Diseñamos e instalamos los mejores canceles que transforman tu baño con calidad y estilo.',                     img:'canceles/1.jpg',            anchor:'canceles' },
+  { cat:'Barandales',         desc:'Los mejores barandales de acero. Calidad, diseño y alta seguridad que realzan la belleza de cualquier espacio.',                          img:'barandales/1.jpg',          anchor:'barandales' },
+  { cat:'Tragaluz',           desc:'Perfectos para llenar tu hogar de luz natural. Instalamos tragaluces elegantes adaptados a tus medidas.',                                 img:'tragaluz/1.jpg',            anchor:'tragaluz' },
+  { cat:'Puertas',            desc:'Puertas de aluminio resistentes con seguridad y estilo. Fabricadas con el mejor aluminio para tu hogar o negocio.',                       img:'puertas/1.jpg',             anchor:'puertas' },
+  { cat:'Ventanas',           desc:'Ventanas que combinan luz y estilo. Elegancia y funcionalidad en aluminio que realzan tus espacios.',                                     img:'ventanas/1.jpg',            anchor:'ventanas' },
+  { cat:'Puertas automáticas',desc:'Lo mejor de la comodidad y modernidad. Automatizamos tus espacios con tecnología y calidad en cada instalación.',                        img:'puertas-automaticas/1.jpg', anchor:'puertas-automaticas' }
+];
+
+function renderItems(lista) {
+  const c  = document.getElementById('catalogo');
+  const nr = document.getElementById('noRes');
+  if (!lista.length) { c.innerHTML = ''; nr.style.display = 'block'; return; }
+  nr.style.display = 'none';
+  c.innerHTML = lista.map((p, i) => `
+    <div class="item" data-cat="${p.cat}">
+      <a href="menu.html#${p.anchor}">
+        <img src="${p.img}" alt="${p.cat}" onerror="this.style.background='#ddd'">
+      </a>
+      <div class="item-desc">
+        <h3>${p.cat}</h3>
+        <p>${p.desc}</p>
+        <a class="btn" href="menu.html#${p.anchor}">Ver galería &rarr;</a>
+      </div>
+    </div>
+    ${i < lista.length - 1 ? '<hr class="divider">' : ''}
+  `).join('');
+}
+
+function filtrar() {
+  const q = document.getElementById('buscar').value.toLowerCase();
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  document.querySelector('nav a').classList.add('active');
+  renderItems(q ? productos.filter(p =>
+    p.cat.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q)
+  ) : productos);
+}
+
+function filtrarCat(cat, el, e) {
+  e.preventDefault();
+  document.getElementById('buscar').value = '';
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  el.classList.add('active');
+  renderItems(cat ? productos.filter(p => p.cat === cat) : productos);
+}
+
+renderItems(productos);
+</script>
+</body>
+</html>
