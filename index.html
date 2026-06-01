@@ -8,6 +8,12 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,sans-serif;background:#fff;color:#222}
 
+/* Canvas detrás de todo */
+#fx{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+
+/* Todo el contenido encima del canvas */
+.wa-bar,header,nav,.hero,.catalogo,.no-results,#fb-section,footer,.wa-footer{position:relative;z-index:1}
+
 /* WA top bar */
 .wa-bar{background:#222;display:flex;align-items:center;justify-content:center;gap:10px;padding:.45rem 1rem;font-size:.82rem;flex-wrap:wrap}
 .wa-bar a{color:#25d366;text-decoration:none;display:flex;align-items:center;gap:5px;font-weight:600}
@@ -31,11 +37,11 @@ nav a{color:#ccc;text-decoration:none;font-size:.78rem;padding:.4rem .8rem;borde
 nav a:hover,nav a.active{background:#c0392b;color:#fff}
 
 /* Hero bienvenida */
-.hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;background:#fff;border-bottom:1px solid #eee}
+.hero{text-align:center;padding:2.5rem 1.5rem 1.5rem;background:rgba(255,255,255,0.92);border-bottom:1px solid #eee}
 .hero h2{font-size:1.4rem;font-weight:700;color:#c0392b;text-transform:uppercase;letter-spacing:1px;margin-bottom:.6rem}
 .hero p{font-size:.92rem;color:#555;max-width:600px;margin:0 auto;line-height:1.7}
 
-/* Catalogo: foto grande + descripción centrada */
+/* Catalogo */
 .catalogo{max-width:860px;margin:0 auto;padding:2rem 1.2rem}
 .item{margin-bottom:3rem;text-align:center}
 .item a{text-decoration:none;color:inherit;display:block}
@@ -61,6 +67,9 @@ footer strong{color:#c0392b}
 </style>
 </head>
 <body>
+
+<!-- CANVAS ANIMACIÓN (z-index:0, detrás de todo) -->
+<canvas id="fx"></canvas>
 
 <!-- BARRA SUPERIOR WA -->
 <div class="wa-bar">
@@ -109,6 +118,21 @@ footer strong{color:#c0392b}
 <div class="catalogo" id="catalogo"></div>
 <div class="no-results" id="noRes">No se encontraron resultados.</div>
 
+<!-- SECCIÓN FACEBOOK -->
+<div id="fb-section" style="background:#1877f2;padding:1.5rem;text-align:center;margin-top:1rem">
+  <div style="max-width:500px;margin:0 auto">
+    <svg style="width:40px;height:40px;fill:#fff;margin-bottom:.5rem" viewBox="0 0 24 24">
+      <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.268h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+    </svg>
+    <h3 style="color:#fff;font-size:1.1rem;margin-bottom:.4rem">Síguenos en Facebook</h3>
+    <p style="color:#cce0ff;font-size:.85rem;margin-bottom:.9rem">Mira nuestros trabajos más recientes y mantente al tanto de nuestras novedades</p>
+    <a href="https://www.facebook.com/share/1FnnpegaWP/?mibextid=wwXIfr" target="_blank"
+       style="background:#fff;color:#1877f2;font-weight:700;padding:.55rem 1.6rem;border-radius:5px;text-decoration:none;font-size:.9rem">
+      Visitar página →
+    </a>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <strong>Vidrios y Aluminios Vallejo</strong> &mdash; Materiales de calidad, acabados profesionales
@@ -123,6 +147,7 @@ footer strong{color:#c0392b}
   </a>
 </div>
 
+<!-- ===================== CATÁLOGO JS ===================== -->
 <script>
 const productos = [
   { cat:'Estantes',           desc:'Fabricamos estantes a la medida de tus espacios. Funcionales, elegantes y duraderos, hechos por expertos con la mayor calidad.',           img:'estantes/1.jpg',            anchor:'estantes' },
@@ -175,6 +200,181 @@ function filtrarCat(cat, el, e) {
 }
 
 renderItems(productos);
+</script>
+
+<!-- ===================== ANIMACIÓN FUEGOS + VIDRIOS ===================== -->
+<script>
+(function(){
+  const canvas = document.getElementById('fx');
+  const ctx = canvas.getContext('2d');
+
+  function resize(){
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const sparkColors = [
+    '#ff0000','#ff2222','#ff5555','#ff8800',
+    '#ffcc00','#ffffff','#ff3333','#cc0000','#ff6644'
+  ];
+  const shardFills = [
+    'rgba(160,210,240,0.65)',
+    'rgba(220,240,255,0.60)',
+    'rgba(200,50,50,0.55)',
+    'rgba(255,255,255,0.58)',
+    'rgba(100,170,220,0.60)'
+  ];
+
+  /* ---- Chispa ---- */
+  class Spark {
+    constructor(x, y){
+      this.x = x; this.y = y;
+      const a = Math.random() * Math.PI * 2;
+      const s = 1.8 + Math.random() * 5.5;
+      this.vx = Math.cos(a) * s;
+      this.vy = Math.sin(a) * s;
+      this.life = 1;
+      this.decay = 0.011 + Math.random() * 0.017;
+      this.r = 1.8 + Math.random() * 3;
+      this.color = sparkColors[Math.floor(Math.random() * sparkColors.length)];
+      this.tail = [];
+    }
+    update(){
+      this.tail.push({x: this.x, y: this.y});
+      if(this.tail.length > 9) this.tail.shift();
+      this.vy += 0.085;
+      this.x  += this.vx;
+      this.y  += this.vy;
+      this.vx *= 0.972;
+      this.vy *= 0.972;
+      this.life -= this.decay;
+    }
+    draw(){
+      ctx.save();
+      for(let i = 0; i < this.tail.length; i++){
+        const t = this.tail[i];
+        const a = (i / this.tail.length) * this.life * 0.45;
+        ctx.beginPath();
+        ctx.arc(t.x, t.y, this.r * (i / this.tail.length) * 0.65, 0, Math.PI * 2);
+        ctx.fillStyle  = this.color;
+        ctx.globalAlpha = a;
+        ctx.fill();
+      }
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle   = this.color;
+      ctx.globalAlpha = this.life;
+      ctx.shadowColor = this.color;
+      ctx.shadowBlur  = 7;
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  /* ---- Fragmento de vidrio (triángulo) ---- */
+  class Shard {
+    constructor(){
+      const W = canvas.width;
+      this.x  = 40 + Math.random() * (W - 80);
+      this.y  = -70;
+      const s = 16 + Math.random() * 34;
+      const baseAngle = Math.random() * Math.PI * 2;
+      this.pts = [];
+      for(let i = 0; i < 3; i++){
+        const a = baseAngle + (i / 3) * Math.PI * 2 + (Math.random() - .5) * 0.55;
+        const r = s * (0.55 + Math.random() * 0.55);
+        this.pts.push([Math.cos(a) * r, Math.sin(a) * r]);
+      }
+      this.vx   = (Math.random() - .5) * 2.8;
+      this.vy   = 1.8 + Math.random() * 3.8;
+      this.rot  = Math.random() * Math.PI * 2;
+      this.vrot = (Math.random() - .5) * 0.11;
+      this.life  = 1;
+      this.decay = 0.004 + Math.random() * 0.007;
+      this.fill  = shardFills[Math.floor(Math.random() * shardFills.length)];
+    }
+    update(){
+      this.x    += this.vx;
+      this.y    += this.vy;
+      this.vy   += 0.065;
+      this.vx   *= 0.997;
+      this.rot  += this.vrot;
+      this.life -= this.decay;
+      if(this.y > canvas.height + 100) this.life = 0;
+    }
+    draw(){
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rot);
+      ctx.globalAlpha = this.life * 0.82;
+      ctx.beginPath();
+      ctx.moveTo(this.pts[0][0], this.pts[0][1]);
+      ctx.lineTo(this.pts[1][0], this.pts[1][1]);
+      ctx.lineTo(this.pts[2][0], this.pts[2][1]);
+      ctx.closePath();
+      ctx.fillStyle   = this.fill;
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(0,0,0,0.78)';
+      ctx.lineWidth   = 1.4;
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+
+  const sparks = [];
+  const shards = [];
+
+  function explode(x, y){
+    const n = 26 + Math.floor(Math.random() * 22);
+    for(let i = 0; i < n; i++) sparks.push(new Spark(x, y));
+  }
+
+  function spawnFirework(){
+    const W = canvas.width, H = canvas.height;
+    const x = W * 0.08 + Math.random() * W * 0.84;
+    const y = H * 0.04 + Math.random() * H * 0.50;
+    explode(x, y);
+  }
+
+  function spawnShards(){
+    const n = 2 + Math.floor(Math.random() * 4);
+    for(let i = 0; i < n; i++) setTimeout(() => shards.push(new Shard()), i * 160);
+  }
+
+  let lastFW = 0, lastSH = 0;
+
+  function loop(ts){
+    requestAnimationFrame(loop);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    /* Disparo de fuego artificial cada 3-5 s */
+    if(ts - lastFW > 3000 + Math.random() * 2000){
+      spawnFirework();
+      if(Math.random() < 0.45) setTimeout(spawnFirework, 380 + Math.random() * 300);
+      lastFW = ts;
+    }
+    /* Lluvia de vidrios cada 1.8-3 s */
+    if(ts - lastSH > 1800 + Math.random() * 1200){
+      spawnShards();
+      lastSH = ts;
+    }
+
+    for(let i = sparks.length - 1; i >= 0; i--){
+      sparks[i].update(); sparks[i].draw();
+      if(sparks[i].life <= 0) sparks.splice(i, 1);
+    }
+    for(let i = shards.length - 1; i >= 0; i--){
+      shards[i].update(); shards[i].draw();
+      if(shards[i].life <= 0) shards.splice(i, 1);
+    }
+  }
+
+  /* Arranque inmediato */
+  setTimeout(() => { spawnFirework(); spawnShards(); }, 500);
+  requestAnimationFrame(loop);
+})();
 </script>
 </body>
 </html>
